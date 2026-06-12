@@ -9,9 +9,7 @@ def get_weather():
             "https://wttr.in/Thiruvananthapuram?format=3",
             timeout=10
         )
-
         return response.text
-
     except:
         return "Weather unavailable"
 
@@ -22,17 +20,13 @@ def get_quote():
             "https://zenquotes.io/api/random",
             timeout=10
         )
-
         data = response.json()[0]
-
         return f"{data['q']} — {data['a']}"
-
     except:
         return "Keep learning and building."
 
 
 def save_summary():
-
     Path("summaries").mkdir(exist_ok=True)
 
     today = datetime.now().strftime("%Y-%m-%d")
@@ -58,6 +52,5 @@ QUOTE OF THE DAY
         file.write(summary)
 
     print("Summary saved:", filename)
-
 
 save_summary()
