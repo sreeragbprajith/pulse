@@ -2,6 +2,20 @@ import requests
 from datetime import datetime
 from pathlib import Path
 
+
+def get_weather():
+    try:
+        response = requests.get(
+            "https://wttr.in/Thiruvananthapuram?format=3",
+            timeout=10
+        )
+
+        return response.text
+
+    except:
+        return "Weather unavailable"
+
+
 def get_quote():
     try:
         response = requests.get(
@@ -10,12 +24,15 @@ def get_quote():
         )
 
         data = response.json()[0]
+
         return f"{data['q']} — {data['a']}"
 
     except:
         return "Keep learning and building."
 
+
 def save_summary():
+
     Path("summaries").mkdir(exist_ok=True)
 
     today = datetime.now().strftime("%Y-%m-%d")
@@ -26,7 +43,11 @@ PULSE DAILY SUMMARY
 
 Date: {today}
 
-Quote of the Day
+WEATHER
+--------
+{get_weather()}
+
+QUOTE OF THE DAY
 ----------------
 {get_quote()}
 """
@@ -37,5 +58,6 @@ Quote of the Day
         file.write(summary)
 
     print("Summary saved:", filename)
+
 
 save_summary()
