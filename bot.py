@@ -1,6 +1,9 @@
 import requests
 from datetime import datetime
 from pathlib import Path
+import smtplib
+import os
+from email.message import EmailMessage
 
 
 def get_weather():
@@ -24,6 +27,25 @@ def get_quote():
         return f"{data['q']} — {data['a']}"
     except:
         return "Keep learning and building."
+
+def send_email(summary):
+
+    email = os.environ["EMAIL_ADDRESS"]
+    password = os.environ["EMAIL_PASSWORD"]
+
+    msg = EmailMessage()
+
+    msg["Subject"] = "Pulse Daily Summary"
+    msg["From"] = email
+    msg["To"] = email
+
+    msg.set_content(summary)
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(email, password)
+        smtp.send_message(msg)
+
+    print("Email sent successfully!")
 
 
 def save_summary():
@@ -52,5 +74,6 @@ QUOTE OF THE DAY
         file.write(summary)
 
     print("Summary saved:", filename)
+    send_email(summary)
 
 save_summary()
