@@ -2,8 +2,8 @@ name: Pulse Daily Bot
 
 on:
   schedule:
-    - cron: "30 2 * * *"
-  workflow_dispatch:
+    - cron: '30 2 * * *' # Triggers at 2:30 AM UTC (8:00 AM IST)
+  workflow_dispatch: # Properly aligned under "on:"
 
 permissions:
   contents: write
@@ -11,17 +11,20 @@ permissions:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - run: python bot.py
-  env:
-    EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-    EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      - name: Run Bot
+        env:
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python bot.py
