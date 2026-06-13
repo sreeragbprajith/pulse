@@ -2,7 +2,7 @@ name: Pulse Daily Bot
 
 on:
   schedule:
-    - cron: '30 2 * * *' # Triggers at 2:30 AM UTC (8:00 AM IST)
+    - cron: '30 4 * * *' # Triggers at 2:30 AM UTC (8:00 AM IST)
   workflow_dispatch: # Properly aligned under "on:"
 
 permissions:
